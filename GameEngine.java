@@ -14,6 +14,8 @@ GamePanel gp;
  	private SpaceShip v;	
  	private Timer timer;
 
+ 	private double difficulty = 0.1;
+
 public GameEngine(GamePanel gp, SpaceShip v) {
  		this.gp = gp;
  		this.v = v;		
@@ -35,14 +37,28 @@ public GameEngine(GamePanel gp, SpaceShip v) {
  	private void process(){
  		gp.updateGameUI(this);
  	}
- 
+ 	
+ 	void controlVehicle(KeyEvent e) {
+		switch (e.getKeyCode()) {
+		case KeyEvent.VK_LEFT:
+			v.move(-1);
+			break;
+		case KeyEvent.VK_RIGHT:
+			v.move(1);
+			break;
+		case KeyEvent.VK_D:
+			difficulty += 0.1;
+			break;
+		}
+	}
+
  	public long getScore(){
  		 return 0;
  	}
  	
  	@Override
  	public void keyPressed(KeyEvent e) {
- 		//do nothing
+ 		controlVehicle(e);
  	}
  
  	@Override
