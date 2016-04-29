@@ -9,39 +9,39 @@ import java.util.Iterator;
 import javax.swing.Timer;
 
 public class GameEngine implements KeyListener, GameReporter{
-GamePanel gp;
- 
- 	private ArrayList<Enemy> enemies = new ArrayList<Enemy>();	
- 	private SpaceShip v;	
- 	private Timer timer;
+	GamePanel gp;
+	
+	private ArrayList<Enemy> enemies = new ArrayList<Enemy>();	
+	private SpaceShip v;	
+	private Timer timer;
+	private long score = 0;
+	private double difficulty = 0.1;
 
- 	private double difficulty = 0.1;
-
-public GameEngine(GamePanel gp, SpaceShip v) {
- 		this.gp = gp;
- 		this.v = v;		
- 		gp.sprites.add(v);
- 		
- 		timer = new Timer(50, new ActionListener() {
- 			@Override
- 			public void actionPerformed(ActionEvent arg0){
- 				process();
- 			}
- 		 });
- 		timer.setRepeats(true);
- 		
- 	}
- public void start(){
- 		timer.start();
- 	}
- 	private void generateEnemy(){
+	public GameEngine(GamePanel gp, SpaceShip v) {
+		this.gp = gp;
+		this.v = v;		
+		gp.sprites.add(v);
+		
+		timer = new Timer(50, new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent arg0){
+				process();
+			}
+		});
+		timer.setRepeats(true);
+		
+	}
+	public void start(){
+		timer.start();
+	}
+	private void generateEnemy(){
 		Enemy e = new Enemy((int)(Math.random()*390), 30);
 		gp.sprites.add(e);
 		enemies.add(e);
 	}
- 
- 	private void process(){
- 		if(Math.random() < difficulty){
+	
+	private void process(){
+		if(Math.random() < difficulty){
 			generateEnemy();
 		}
 
@@ -53,42 +53,46 @@ public GameEngine(GamePanel gp, SpaceShip v) {
 			if(!e.isAlive()){
 				e_iter.remove();
 				gp.sprites.remove(e);
+				score += 100;
 			}
 		}
 
- 		gp.updateGameUI(this);
- 	}
- 	
- 	void controlVehicle(KeyEvent e) {
+		gp.updateGameUI(this);
+
+
+	}
+
+	
+	void controlVehicle(KeyEvent e) {
 		switch (e.getKeyCode()) {
-		case KeyEvent.VK_LEFT:
+			case KeyEvent.VK_LEFT:
 			v.move(-1);
 			break;
-		case KeyEvent.VK_RIGHT:
+			case KeyEvent.VK_RIGHT:
 			v.move(1);
 			break;
-		case KeyEvent.VK_D:
+			case KeyEvent.VK_D:
 			difficulty += 0.1;
 			break;
 		}
 	}
 
- 	public long getScore(){
- 		 return 0;
- 	}
- 	
- 	@Override
- 	public void keyPressed(KeyEvent e) {
- 		controlVehicle(e);
- 	}
- 
- 	@Override
- 	public void keyReleased(KeyEvent e) {
+	public long getScore(){
+		return score;
+	}
+	
+	@Override
+	public void keyPressed(KeyEvent e) {
+		controlVehicle(e);
+	}
+	
+	@Override
+	public void keyReleased(KeyEvent e) {
  		//do nothing
- 	}
- 
- 	@Override
- 	public void keyTyped(KeyEvent e) {
+	}
+	
+	@Override
+	public void keyTyped(KeyEvent e) {
  		//do nothing		
- 	}
- }
+	}
+}
