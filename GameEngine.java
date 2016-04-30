@@ -5,8 +5,11 @@ import java.awt.event.KeyListener;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 import java.util.Iterator;
-
+import javax.swing.JOptionPane;
 import javax.swing.Timer;
+
+import java.awt.Graphics;
+import java.awt.Graphics2D;
 
 public class GameEngine implements KeyListener, GameReporter{
 GamePanel gp;
@@ -71,8 +74,10 @@ public GameEngine(GamePanel gp, SpaceShip v) {
  	}
 
  	public void die(){
-		timer.stop();
+ 		
+ 		JOptionPane.showMessageDialog (null, "GameOver...", "Space War", JOptionPane.INFORMATION_MESSAGE);
 		
+		timer.stop();
 	}
  	
  	void controlVehicle(KeyEvent e) {
@@ -107,4 +112,5 @@ public GameEngine(GamePanel gp, SpaceShip v) {
  	public void keyTyped(KeyEvent e) {
  		//do nothing		
  	}
+
  }

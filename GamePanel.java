@@ -4,24 +4,38 @@ import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import javax.swing.JPanel;
+import java.awt.Image;
+import java.io.File;
+import java.io.IOException;
+import javax.imageio.ImageIO;
+
 
 public class GamePanel extends JPanel {
 	
 	private BufferedImage bi;	
 	Graphics2D big;
+	private Image imageBg;
 	ArrayList<Sprite> sprites = new ArrayList<Sprite>();
 	
 	public GamePanel() {
 		bi = new BufferedImage(400, 600, BufferedImage.TYPE_INT_ARGB);
 		big = (Graphics2D) bi.getGraphics();
 		big.setBackground(Color.BLACK);
+		try {
+			File sourceImageBg = new File("background.jpg");
+			imageBg = ImageIO.read(sourceImageBg);
+		}catch (IOException e) {
+			e.printStackTrace();
+     	}
 	}
 
 	public void updateGameUI(GameReporter reporter){
  		big.clearRect(0, 0, 400, 600);
- 		
+ 		big.drawImage(imageBg, 0, 0, null);
  		big.setColor(Color.WHITE);		
-		big.drawString(String.format("%08d", reporter.getScore()), 300, 20);
+ 		big.drawString(String.format("score :   %08d", reporter.getScore()), 280, 20);
+
+
  		for(Sprite s : sprites){
  			s.draw(big);
  		}
